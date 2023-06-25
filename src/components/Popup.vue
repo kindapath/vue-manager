@@ -87,7 +87,6 @@
 <script>
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
-import { toRaw } from "vue";
 
 export default {
   props: {
