@@ -43,7 +43,7 @@ export default {
       const rawEmps = await JSON.parse(JSON.stringify(this.employees));
 
       rawEmps[index] = employee;
-      ы;
+
       localStorage.setItem("employees", JSON.stringify(rawEmps));
 
       this.employees = rawEmps;
