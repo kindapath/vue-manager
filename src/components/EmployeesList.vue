@@ -15,7 +15,11 @@
         <td class="w-25">{{ item.columns.middleName }}</td>
         <td class="w-25">{{ item.columns.job }}</td>
         <td class="d-flex justify-end">
-          <v-btn flat icon="mdi-pencil"></v-btn>
+          <popup-edit
+            @edit-item="editItem"
+            :employeeInfo="item.selectable"
+            :employeeIndex="item.index"
+          />
           <v-btn @click="removeItem(item.index)" flat icon="mdi-close"></v-btn>
           <v-btn
             router
@@ -30,6 +34,8 @@
 </template>
 
 <script>
+import PopupEdit from "./PopupEdit.vue";
+
 import { VDataTable } from "vuetify/labs/VDataTable";
 
 export default {
@@ -43,6 +49,9 @@ export default {
   methods: {
     removeItem(index) {
       this.$emit("removeItem", index);
+    },
+    editItem(employee, index) {
+      this.$emit("editItem", employee, index);
     },
   },
   data() {
@@ -58,5 +67,6 @@ export default {
       ],
     };
   },
+  components: { PopupEdit },
 };
 </script>

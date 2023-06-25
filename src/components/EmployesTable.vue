@@ -14,6 +14,7 @@
 
     <!-- list -->
     <employees-list
+      @edit-item="editItem"
       @removeItem="removeItem"
       :search="search"
       :employees="employees"
@@ -42,6 +43,9 @@ export default {
   methods: {
     removeItem(index) {
       this.$emit("removeItem", index);
+    },
+    editItem(employee, index) {
+      this.$emit("editItem", employee, index);
     },
   },
 };

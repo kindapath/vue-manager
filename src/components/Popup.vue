@@ -2,11 +2,10 @@
   <div class="text-center">
     <v-dialog v-model="dialog" width="600px">
       <template v-slot:activator="{ props }">
-        <v-btn color="pink-lighten-1" flat v-bind="props">
-          Добавить сотрудника
+        <v-btn icon flat v-bind="props">
+          <slot name="btn-icon"></slot>
         </v-btn>
       </template>
-
       <v-card>
         <v-card-text>
           <v-form class="px-3" ref="form">
@@ -22,7 +21,8 @@
               variant="underlined"
               v-model="name"
               :rules="[rules.required]"
-            ></v-text-field>
+            >
+            </v-text-field>
 
             <v-text-field
               label="Отчество"
@@ -67,7 +67,17 @@
 
         <!-- submit button -->
         <v-card-actions>
-          <v-btn color="pink-lighten-1" block @click="submit">Добавить</v-btn>
+          <v-btn
+            v-if="this.edit"
+            color="pink-lighten-1"
+            block
+            @click="submitEdit"
+          >
+            Редактировать</v-btn
+          >
+          <v-btn v-else color="pink-lighten-1" block @click="submit">
+            Добавить</v-btn
+          >
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -77,12 +87,21 @@
 <script>
 import { format } from "date-fns";
 import { ru } from "date-fns/locale";
+import { toRaw } from "vue";
 
 export default {
   props: {
-    employees: {
+    edit: {
+      type: [Boolean],
+    },
+    employeeInfo: {
       type: [Object],
-      required: true,
+    },
+    employeeIndex: {
+      type: [Number],
+    },
+    btn: {
+      type: [String],
     },
   },
   data() {
@@ -123,9 +142,21 @@ export default {
           pay: this.pay,
         };
         this.$emit("addItem", employee);
-        console.log(employee);
-        // localStorage.setItem('employees', )
-        // console.log(employees);
+      }
+    },
+    submitEdit() {
+      if (this.$refs.form.validate()) {
+        const employee = {
+          name: this.name,
+          surname: this.surname,
+          middleName: this.middleName,
+          job: this.job,
+          book: this.book,
+          salary: this.salary,
+          enterDate: this.enterDate,
+          pay: this.pay,
+        };
+        this.$emit("editItem", employee, this.employeeIndex);
       }
     },
   },

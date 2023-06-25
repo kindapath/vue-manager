@@ -4,10 +4,18 @@
       Поиск информации о сотрудниках
     </h1>
 
-    <employes-table @removeItem="removeItem" :employees="employees" />
+    <employes-table
+      @edit-item="editItem"
+      @removeItem="removeItem"
+      :employees="employees"
+    />
 
     <v-container class="mt-6">
-      <popup @addItem="addItem" :employees="employees" />
+      <popup @addItem="addItem" :employees="employees">
+        <template v-slot:btn-icon>
+          <v-icon icon="mdi-plus"></v-icon>
+        </template>
+      </popup>
     </v-container>
   </div>
 </template>
@@ -31,6 +39,15 @@ export default {
       }
       employee = "";
     },
+    async editItem(employee, index) {
+      const rawEmps = await JSON.parse(JSON.stringify(this.employees));
+
+      rawEmps[index] = employee;
+      ы;
+      localStorage.setItem("employees", JSON.stringify(rawEmps));
+
+      this.employees = rawEmps;
+    },
     removeItem(index) {
       this.employees.splice(index, 1);
       localStorage.setItem("employees", JSON.stringify(this.employees));
@@ -45,4 +62,5 @@ export default {
 
 import Popup from "@/components/Popup.vue";
 import EmployesTable from "@/components/EmployesTable.vue";
+import { toRaw } from "vue";
 </script>
