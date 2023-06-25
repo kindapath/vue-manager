@@ -16,6 +16,7 @@
         <td class="w-25">{{ item.columns.job }}</td>
         <td class="d-flex justify-end">
           <popup-edit
+            :employees="employees"
             @edit-item="editItem"
             :employeeInfo="item.selectable"
             :employeeIndex="item.index"
@@ -56,6 +57,12 @@ export default {
   },
   data() {
     return {
+      props: {
+        employees: {
+          type: [Object, Array],
+          required: true,
+        },
+      },
       sortBy: [{ key: "name", order: "asc" }],
       itemsPerPage: 5,
       headers: [

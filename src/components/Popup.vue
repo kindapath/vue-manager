@@ -102,18 +102,24 @@ export default {
     btn: {
       type: [String],
     },
+    employees: {
+      type: [Object, Array],
+      required: true,
+    },
   },
   data() {
+    const rawEmps = JSON.parse(JSON.stringify(this.employees));
+    const employee = rawEmps[this.employeeIndex];
     return {
       dialog: false,
-      name: "",
-      surname: "",
-      middleName: "",
-      job: "",
-      book: false,
-      salary: "",
-      enterDate: null,
-      pay: "",
+      name: this.edit ? employee.name : "",
+      surname: this.edit ? employee.surname : "",
+      middleName: this.edit ? employee.middleName : "",
+      job: this.edit ? employee.job : "",
+      book: this.edit ? employee.book : false,
+      salary: this.edit ? employee.salary : "",
+      enterDate: this.edit ? employee.enterDate : null,
+      pay: this.edit ? employee.pay : "",
       rules: {
         inputRules: [
           (v) => v.length >= 2 || "Минимальное количество символов - 2",
@@ -128,6 +134,17 @@ export default {
     };
   },
   methods: {
+    resetForm() {
+      this.dialog = false;
+      this.name = "";
+      this.surname = "";
+      this.middleName = "";
+      this.job = "";
+      this.book = false;
+      this.salary = "";
+      this.enterDate = null;
+      this.pay = "";
+    },
     submit() {
       if (this.$refs.form.validate()) {
         const employee = {
@@ -141,6 +158,7 @@ export default {
           pay: this.pay,
         };
         this.$emit("addItem", employee);
+        this.resetForm();
       }
     },
     submitEdit() {
@@ -155,7 +173,9 @@ export default {
           enterDate: this.enterDate,
           pay: this.pay,
         };
+
         this.$emit("editItem", employee, this.employeeIndex);
+        this.resetForm();
       }
     },
   },
