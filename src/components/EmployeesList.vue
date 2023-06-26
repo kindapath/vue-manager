@@ -66,8 +66,8 @@ export default {
       sortBy: [{ key: "name", order: "asc" }],
       itemsPerPage: 5,
       headers: [
-        { title: "Фамилия", align: "start", key: "surname" },
         { title: "Имя", align: "start", key: "name" },
+        { title: "Фамилия", align: "start", key: "surname" },
         { title: "Отчество", align: "start", key: "middleName" },
         { title: "Должность", align: "start", key: "job" },
         { title: "Действия", align: "start", key: "action" },
